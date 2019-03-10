@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--OrderItem Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.OrderItemMapper" >
+  <!--构造OrderItem对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.OrderItem" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -16,6 +18,7 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, user_id, order_no, product_id, product_name, product_image, current_unit_price, 
     quantity, total_price, create_time, update_time
@@ -163,4 +166,40 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询订单条目，根据用户Id和订单号，返回订单条目OrderItem的List列表-->
+  <select id="selectByUserIdAndOrderNo" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order_item
+    where user_id = #{userId}
+    and order_no = #{orderNo}
+  </select>
+
+  <!--查询订单条目，根据订单号，返回订单条目OrderItem的List列表-->
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="long">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order_item
+    where order_no = #{orderNo}
+  </select>
+
+  <!--批量插入：使用foreach标签，遍历List<OrderItem> orderItemList列表，
+      将每一个订单条目OrderItem都插入数据库中-->
+  <!--批量插入订单条目，返回插入结果个数-->
+  <insert id="batchInsert" parameterType="list">
+    insert into mmall_order_item (id, user_id, order_no,
+      product_id, product_name, product_image,
+      current_unit_price, quantity, total_price,
+      create_time, update_time)
+    values
+    <foreach collection="orderItemList" index="index" item="item" separator=",">
+      (
+      #{item.id}, #{item.userId}, #{item.orderNo},
+      #{item.productId}, #{item.productName}, #{item.productImage},
+      #{item.currentUnitPrice}, #{item.quantity}, #{item.totalPrice},
+      now(), now()
+      )
+    </foreach>
+  </insert>
 </mapper>

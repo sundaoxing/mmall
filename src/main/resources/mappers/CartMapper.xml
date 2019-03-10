@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.CartMapper" >
+  <!--构造Cart对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Cart" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -9,12 +11,15 @@
       <arg column="quantity" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="checked" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="updata_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
-    id, user_id, product_id, quantity, checked, create_time, updata_time
+    id, user_id, product_id, quantity, checked, create_time, update_time
   </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -28,7 +33,7 @@
   <insert id="insert" parameterType="com.mmall.pojo.Cart" >
     insert into mmall_cart (id, user_id, product_id, 
       quantity, checked, create_time, 
-      updata_time)
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
       #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, now(),now())
   </insert>
@@ -53,8 +58,8 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="updataTime != null" >
-        updata_time,
+      <if test="updateTime != null" >
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -76,7 +81,7 @@
       <if test="createTime != null" >
         now(),
       </if>
-      <if test="updataTime != null" >
+      <if test="updateTime != null" >
         now(),
       </if>
     </trim>
@@ -99,8 +104,8 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updataTime != null" >
-        updata_time = now(),
+      <if test="updateTime != null" >
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -112,7 +117,67 @@
       quantity = #{quantity,jdbcType=INTEGER},
       checked = #{checked,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      updata_time = now()
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询购物车，根据用户id，商品id，返回Cart对象-->
+  <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_cart
+    where user_id = #{userId}
+    and product_id = #{productId}
+  </select>
+  <!--查询购物车列表，根据用户id，返回Cart对象集合-->
+  <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_cart
+    where user_id = #{userId}
+  </select>
+  <!--查询商品是否没有被勾选，根据用户id，返回查询的结果个数-->
+  <select id="selectCartProductAllCheckedStatusByUserId" resultType="int" parameterType="int">
+    select count(1)
+    from mmall_cart
+    where checked = 5
+    and user_id = #{userId}
+  </select>
+  <!--productIdList是一个列表，需要用foreach标签遍历-->
+  <!--删除购物车列表，根据用户id，商品id列表，返回删除的结果个数-->
+  <delete id="deleteByUserIdProductIds" parameterType="map">
+    delete from mmall_cart
+    where user_id = #{userId}
+    <if test="productIdList !=null">
+      and product_id in
+      <foreach collection="productIdList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+  <!--更新购物车商品的勾选状态，根据用户id，商品id，商品勾选状态，返回更新的结果个数-->
+  <update id="checkedOrUnCheckedProduct" parameterType="map">
+    update mmall_cart
+    set checked = #{checked},
+    update_time = now()
+    where user_id = #{userId}
+    <if test="productId !=null">
+      and product_id = #{productId}
+    </if>
+  </update>
+  <!--查询购物车中商品的个数，根据用户id，返回购物车中商品的个数-->
+  <select id="selectCartProductCount" resultType="int" parameterType="int">
+    select NULLIF(sum(quantity),0)
+    from mmall_cart
+    where user_id = #{userId}
+  </select>
+
+  <!--查询购物车，根据用户Id和勾选状态，返回购物车中已被勾选的的Cart对象的List列表-->
+  <select id="selectCheckedByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_cart
+    where user_id = #{userId}
+    and checked = 4
+  </select>
 </mapper>

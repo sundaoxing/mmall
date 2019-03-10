@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.UserMapper" >
+  <!--构造User对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.User" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -15,9 +18,12 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, username, password, email, phone, question, answer, role, create_time, update_time
   </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -151,4 +157,63 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询用户名，返回查询结果的个数-->
+  <select id="checkUsername" resultType="int" parameterType="string">
+    select count(1) from mmall_user
+    where username = #{username}
+  </select>
+
+  <!--查询邮箱，返回查询结果的个数-->
+  <select id="checkEmail" resultType="int" parameterType="string">
+    select count(1) from mmall_user
+    where email = #{email}
+  </select>
+
+  <!--查询用户，根据用户名和密码，返回User对象-->
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_user
+    where username = #{username}
+    and password = #{password}
+  </select>
+
+  <!--查询问题，根据用户名，返回问题-->
+  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    select question
+    from mmall_user
+    where username = #{username}
+  </select>
+
+  <!--查询答案，根据用户名，问题，答案，返回查询结果的个数-->
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select count(1) from mmall_user
+    where username = #{username}
+    and   question = #{question}
+    and   answer   = #{answer}
+  </select>
+
+  <!--更新密码，根据用户名，新密码，返回更新结果的个数-->
+  <update id="updatePasswordByUsername" parameterType="map">
+    update mmall_user
+    set password = #{passwordNew}, update_time = now()
+    where username = #{username}
+  </update>
+
+  <!--查询密码，根据旧密码，用户id，返回查询结果的个数-->
+  <select id="checkPassword" resultType="int" parameterType="map">
+    select count(1)
+    from mmall_user
+    where id = #{userId}
+    and password = #{password}
+  </select>
+
+  <!--查询邮箱，根据邮箱，用户id，返回查询结果的个数-->
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    select count(1)
+    from mmall_user
+    where email = #{eamil}
+    and id != #{userId}
+  </select>
 </mapper>

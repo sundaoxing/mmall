@@ -2,35 +2,38 @@ package com.mmall.pojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/*
+            订单类：
+                pojo层：对应数据库表结构：mmall_order
+ */
 public class Order {
-    private Integer id;
+    private Integer id;//订单表id
 
-    private Long orderNo;
+    private Long orderNo;//订单号
 
-    private Integer userId;
+    private Integer userId;//用户表id
 
-    private Integer shippingId;
+    private Integer shippingId;//收货地址表id
 
-    private BigDecimal payment;
+    private BigDecimal payment;//实际付款金额
 
-    private Integer paymentType;
+    private Integer paymentType;//实际支付类型
 
-    private Integer postage;
+    private Integer postage;//快递费用
 
-    private Integer status;
+    private Integer status;//订单状态
 
-    private Date paymentTime;
+    private Date paymentTime;//订单支付时间
 
-    private Date sendTime;
+    private Date sendTime;//订单发货时间
 
-    private Date endTime;
+    private Date endTime;//交易完成时间
 
-    private Date closeTime;
+    private Date closeTime;//交易关闭时间
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public Order(Integer id, Long orderNo, Integer userId, Integer shippingId, BigDecimal payment, Integer paymentType, Integer postage, Integer status, Date paymentTime, Date sendTime, Date endTime, Date closeTime, Date createTime, Date updateTime) {
         this.id = id;

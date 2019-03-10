@@ -2,31 +2,34 @@ package com.mmall.pojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/*
+            商品类：
+                pojo层：对应数据库表结构：mmall_product
+ */
 public class Product {
-    private Integer id;
+    private Integer id;//商品表id
 
-    private Integer categoryId;
+    private Integer categoryId;//分类表id
 
-    private String name;
+    private String name;//商品名称
 
-    private String subtitle;
+    private String subtitle;//商品副标题
 
-    private String mainImage;
+    private String mainImage;//商品主图
 
-    private String subImages;
+    private String subImages;//商品副图
 
-    private String detail;
+    private String detail;//商品详情
 
-    private BigDecimal price;
+    private BigDecimal price;//商品单价
 
-    private Integer stock;
+    private Integer stock;//商品库存量
 
-    private Integer status;
+    private Integer status;//商品状态
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail, BigDecimal price, Integer stock, Integer status, Date createTime, Date updateTime) {
         this.id = id;

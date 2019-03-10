@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.ProductMapper" >
+  <!--构造Product对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Product" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -17,10 +19,14 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, status, 
     create_time, update_time
   </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -176,4 +182,47 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--使用pageHelper进行分页，mybatis会自动将MYSQL方言limit拼接到该sql查询语句后面，所以此处不加";"-->
+  <!--查询product对象：根据ProductId升序排列，返回所有商品的List集合-->
+  <select id="selectProductList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    order by id asc
+  </select>
+
+  <!--mybatis：where标签：当第一个字段为空时，会自动将 and/or 关键字替换成 where 关键字-->
+  <!--查询Product对象：根据商品名称（模糊查询）或者商品Id，返回满足条件的商品List集合-->
+  <select id="selectProductByNameAndId" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      <if test="productName !=null">
+        and name like #{productName}
+      </if>
+      <if test="productId !=null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
+
+  <!--这里的category是一个集合，需要用foreach标签进行遍历，匹配-->
+  <!--查询Product对象：根据商品名称（模糊查询）或者当前商品所属分类的Id和其子分类的Id，返回满足条件的商品List集合-->
+  <select id="selectProductByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    where status = 1
+    <if test="productName !=null">
+      and name like #{productName}
+    </if>
+    <if test="categoryIdSet != null">
+      and category_id in
+      <foreach item="categoryId" index="index" open="(" separator="," close=")" collection="categoryIdSet">
+        #{categoryId}
+      </foreach>
+    </if>
+  </select>
 </mapper>

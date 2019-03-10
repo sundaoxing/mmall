@@ -9,9 +9,13 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <!--扫描com.mmall下的包，发现@Controller、@Service 、@Repository等注解修饰的Java类，则将这些类注册为spring容器中的bean-->
     <context:component-scan base-package="com.mmall" annotation-config="true" />
+
+    <!--自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的-->
     <mvc:annotation-driven>
         <mvc:message-converters>
+            <!--完成请求报文到字符串和字符串到响应报文的转换，对应@ResponseBody注解-->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
@@ -24,6 +28,7 @@
                     </list>
                 </property>
             </bean>
+            <!--将Java对象转换为Json字符串-->
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>

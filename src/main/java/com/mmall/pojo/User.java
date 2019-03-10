@@ -2,26 +2,31 @@ package com.mmall.pojo;
 
 import java.util.Date;
 
+/*
+        用户类：
+            pojo层：对应数据库表结构：mmall_user
+            在mvc各层中做传输介质，承载数据
+ */
 public class User {
-    private Integer id;
+    private Integer id;//用户表id
 
-    private String username;
+    private String username;//用户名
 
-    private String password;
+    private String password;//登陆密码
 
-    private String email;
+    private String email;//邮箱
 
-    private String phone;
+    private String phone;//手机号码
 
-    private String question;
+    private String question;//问题：用户找回密码
 
-    private String answer;
+    private String answer;//答案：用户找回密码
 
-    private Integer role;
+    private Integer role;//角色
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public User(Integer id, String username, String password, String email, String phone, String question, String answer, Integer role, Date createTime, Date updateTime) {
         this.id = id;

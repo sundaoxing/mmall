@@ -1,21 +1,24 @@
 package com.mmall.pojo;
 
 import java.util.Date;
-
+/*
+            商品类别类：
+                pojo层：对应数据库表结构：mmall_category
+ */
 public class Category {
-    private Integer id;
+    private Integer id;//商品类别表id
 
-    private Integer parentId;
+    private Integer parentId;//父节点Id
 
-    private String name;
+    private String name;//分类名称
 
-    private Boolean status;
+    private Boolean status;//分类状态
 
-    private Integer sortOrder;
+    private Integer sortOrder;//排序编号
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public Category(Integer id, Integer parentId, String name, Boolean status, Integer sortOrder, Date createTime, Date updateTime) {
         this.id = id;

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.ShippingMapper" >
+  <!--构造Shipping对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Shipping" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -17,10 +19,12 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, user_id, receiver_name, receiver_phone, receiver_mobile, receiver_province, receiver_city, 
     receiver_district, receiver_address, receiver_zip, create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -31,7 +35,10 @@
     delete from mmall_shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mmall.pojo.Shipping" >
+
+  <!--新增两个属性：useGeneratedKeys="true" keyProperty="id"
+      在查询到的对象中注入数据库表中行记录自动生成的id-->
+  <insert id="insert" parameterType="com.mmall.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
     insert into mmall_shipping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
@@ -176,4 +183,46 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--删除地址：根据用户Id和地址Id，返回删除结果的个数-->
+  <delete id="deleteByUserIdShippingId" parameterType="map">
+    delete from mmall_shipping
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </delete>
+
+  <!--传入的方法参数为Shipping对象，使用其中的属性要用#{属性名，jdbcType=属性类型}格式-->
+  <!--更新地址：根据用户Id和地址Id，返回更新结果的个数-->
+  <update id="updateByUserIdShippingId" parameterType="com.mmall.pojo.Shipping">
+    update mmall_shipping
+    set
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+      receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      receiver_zip = #{receiverZip,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+    and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!--查询地址：根据用户Id，地址Id，返回地址Shipping对象-->
+  <select id="selectByUserIdShippingId" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_shipping
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </select>
+
+  <!--查询地址：根据用户Id，返回地址Shipping对象List列表-->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_shipping
+    where user_id = #{userId}
+  </select>
 </mapper>

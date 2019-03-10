@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.CategoryMapper" >
+  <!--构造Category对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Category" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -12,9 +14,12 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, parent_id, name, status, sort_order, create_time, update_time
   </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -115,4 +120,12 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询Category对象，根据当前分类的父分类Id，返回所有的查询结果-->
+  <select id="selectChildCategoryByParentId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_category
+    where parent_id = #{parentId}
+  </select>
 </mapper>

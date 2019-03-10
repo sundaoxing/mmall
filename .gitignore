@@ -1,3 +1,4 @@
+#git 推送到远程时过滤的文件名后缀
 *.class
 #package file
 *.war

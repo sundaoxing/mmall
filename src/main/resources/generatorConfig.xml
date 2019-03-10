@@ -2,6 +2,9 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!--mybatis-generator插件配置，
+    主要使用该插件自动生成pojo和mappers-->
 <generatorConfiguration>
     <!-- 引入配置文件 -->
     <properties resource="datasource.properties"/>

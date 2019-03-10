@@ -1,23 +1,26 @@
 package com.mmall.pojo;
 
 import java.util.Date;
-
+/*
+            支付信息类：
+                pojo层：对应数据库表结构：mmall_pay_info
+ */
 public class PayInfo {
-    private Integer id;
+    private Integer id;//支付信息表id
 
-    private Integer userId;
+    private Integer userId;//用户表id
 
-    private Long orderNo;
+    private Long orderNo;//订单号
 
-    private Integer payPlatform;
+    private Integer payPlatform;//支付平台
 
-    private String platformNumber;
+    private String platformNumber;//支付宝支付流水号
 
-    private String platformStatus;
+    private String platformStatus;//支付宝支付状态
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public PayInfo(Integer id, Integer userId, Long orderNo, Integer payPlatform, String platformNumber, String platformStatus, Date createTime, Date updateTime) {
         this.id = id;

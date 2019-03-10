@@ -2,30 +2,34 @@ package com.mmall.pojo;
 
 import java.util.Date;
 
+/*
+        收货地址类：
+            pojo层：对应数据库表结构：mmall_shipping
+ */
 public class Shipping {
-    private Integer id;
+    private Integer id;//收货地址表id
 
-    private Integer userId;
+    private Integer userId;//用户表id
 
-    private String receiverName;
+    private String receiverName;//收货人姓名
 
-    private String receiverPhone;
+    private String receiverPhone;//收货人手机号码
 
-    private String receiverMobile;
+    private String receiverMobile;//收货人移动电话
 
-    private String receiverProvince;
+    private String receiverProvince;//收货地址所在省份
 
-    private String receiverCity;
+    private String receiverCity;//收货地址所在城市
 
-    private String receiverDistrict;
+    private String receiverDistrict;//收货地址所在区/县
 
-    private String receiverAddress;
+    private String receiverAddress;//详细收获地址
 
-    private String receiverZip;
+    private String receiverZip;//收货地址邮编
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date updateTime;
+    private Date updateTime;//最近一次更新时间
 
     public Shipping(Integer id, Integer userId, String receiverName, String receiverPhone, String receiverMobile, String receiverProvince, String receiverCity, String receiverDistrict, String receiverAddress, String receiverZip, Date createTime, Date updateTime) {
         this.id = id;

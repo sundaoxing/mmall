@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--spring容器的分离配置（数据库连接池的配置）-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
@@ -13,6 +14,8 @@
 
     <context:component-scan base-package="com.mmall" annotation-config="true" />
 
+    <!--处理property文件配置：
+        填充占位符指向的数据库配置key-value-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2" />
@@ -25,6 +28,7 @@
         <property name="fileEncoding" value="utf-8" />
     </bean>
 
+    <!--数据库连接池配置-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${db.driverClassName}" />
         <property name="url" value="${db.url}" />
@@ -53,6 +57,7 @@
         <!--<property name="validationQuery" value="${db.validationQuery}" />-->
     </bean>
 
+    <!--mybatisSQL语句生成（DAO层实现）-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml" />
@@ -69,7 +74,7 @@
             </array>
         </property>
     </bean>
-
+    <!--查找类路径下的映射器并自动将它们创建成MapperFactoryBean-->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.mmall.dao"/>
     </bean>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--Order Dao层接口实现类，数据库查询语句-->
 <mapper namespace="com.mmall.dao.OrderMapper" >
+  <!--构造Order对象类型：在xml文件中使用，可以当成数据类型使用-->
   <resultMap id="BaseResultMap" type="com.mmall.pojo.Order" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -19,6 +21,7 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <!--构造查询字段集，替代*-->
   <sql id="Base_Column_List" >
     id, order_no, user_id, shipping_id, payment, payment_type, postage, status, payment_time, 
     send_time, end_time, close_time, create_time, update_time
@@ -198,4 +201,38 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询订单，根据用户Id和订单号，返回Order对象-->
+  <select id="selectByUserIdAndOrderNo" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order
+    where user_id = #{userId}
+    and order_no = #{orderNo}
+  </select>
+
+  <!--查询订单，根据订单号，返回Order对象-->
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="long">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order
+    where order_no = #{orderNo}
+  </select>
+
+  <!--查询订单，按照创建时间降序排序，根据用户Id，返回Order对象的List列表-->
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order
+    where user_id = #{userId}
+    order by create_time desc
+  </select>
+
+  <!--询订单（所有），按照创建时间降序排序，返回Order对象的List列表-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_order
+    order by create_time desc
+  </select>
 </mapper>
