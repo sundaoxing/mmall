@@ -8,18 +8,19 @@
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
-        <!--日志打印级别-->
+        <!--日志打印级别:大于DEBUG级别的都会显示-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
         </filter>
     </appender>
 
-    <!--项目日志-->
+    <!--项目日志：RollingFileAppender：基于时间的分包策略-->
     <appender name="mmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--file:G:/JAVA/apache-tomcat-8.0.35/logs/mmall.log-->
         <File>
             G:/JAVA/apache-tomcat-8.0.35/logs/mmall.log
         </File>
+        <!--自动打包-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>
                 G:/JAVA/apache-tomcat-8.0.35/logs/mmall.log.%d{yyyy-MM-dd}.gz
@@ -38,6 +39,7 @@
         <File>
             G:/JAVA/apache-tomcat-8.0.35/logs/error.log
         </File>
+        <!--自动打包-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>
                 G:/JAVA/apache-tomcat-8.0.35/logs/error.log.%d{yyyy-MM-dd}.gz
@@ -62,7 +64,7 @@
         <appender-ref ref="console"/>
     </logger>
 
-    <!--mybatis log 日志-->
+    <!--mybatis log 日志，将dao层的日志进行打印：mybatis 执行mysql语句的过程-->
     <logger name="com.mmall.dao" level="DEBUG"/>
 
     <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" >-->

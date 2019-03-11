@@ -12,6 +12,7 @@
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!--扫描com.mmall包下的注解，方便在类中注入相应的类-->
     <context:component-scan base-package="com.mmall" annotation-config="true" />
 
     <!--处理property文件配置：
@@ -21,6 +22,7 @@
         <property name="order" value="2" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="locations">
+            <!--指定数据库配置文件的路径-->
             <list>
                 <value>classpath:datasource.properties</value>
             </list>
@@ -57,15 +59,17 @@
         <!--<property name="validationQuery" value="${db.validationQuery}" />-->
     </bean>
 
-    <!--mybatisSQL语句生成（DAO层实现）-->
+    <!--mybatis：SQL语句生成（DAO层实现）-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        <!--指定DAO层实现xml文件的路径-->
         <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml" />
         <!--分页插件-->
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageHelper">
                     <property name="properties">
+                        <!--配置方言：mysql的方言-->
                         <value>
                             dialect=mysql
                         </value>

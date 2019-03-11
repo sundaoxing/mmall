@@ -9,11 +9,14 @@
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-    <!--扫描，方便在类中注入-->
+
+    <!--扫描com.mmall包下的注解，方便在类中注入相应的类-->
     <context:component-scan base-package="com.mmall" annotation-config="true" />
+
     <!--context:annotation-config-->
     <!--aop配置-->
     <aop:aspectj-autoproxy />
+
     <!--分离当前spring配置文件-->
     <import resource="applicationContext-datasource.xml" />
 </beans>

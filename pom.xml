@@ -3,17 +3,20 @@
 <!--mybatis的依赖配置-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
   <groupId>com</groupId>
   <artifactId>mmall</artifactId>
+  <!--版本：1.0快照版本-->
   <version>1.0-SNAPSHOT</version>
+  <!--格式：打包成war包-->
   <packaging>war</packaging>
 
   <name>mmall Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://maven.apache.org</url>
 
+  <!--pom.xml文件里的配置，可以在pom.xml文件中引用-->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -21,104 +24,131 @@
 
     <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
     <org.mybatis.version>3.4.1</org.mybatis.version>
+    <!--
+     mybatis 和spring集成的版本
+    允许MyBatis参与Spring事务，负责构建MyBatis映射器和SqlSession并将它们注入其他bean，
+    将MyBatis异常转换为Spring DataAccessException
+    -->
     <org.mybatis.spring.version>1.3.0</org.mybatis.spring.version>
 
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
+  <!--项目依赖的jar包-->
   <dependencies>
+    <!--
+    groupId	这是工程组的标识。它在一个组织或者项目中通常是唯一的。
+    artifactId	这是工程的标识。它通常是工程的名称。groupId 和 artifactId 一起定义了 artifact 在仓库中的位置。
+    version	这是工程的版本号。在 artifact 的仓库中，它用来区分不同的版本。
+    -->
     <dependency>
+      <!--servlet-->
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-servlet-api</artifactId>
       <version>8.0.35</version>
     </dependency>
 
     <dependency>
+      <!--mvc-->
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
 
     <dependency>
+      <!--oxm-->
       <groupId>org.springframework</groupId>
       <artifactId>spring-oxm</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
 
     <dependency>
+      <!--jdbc数据库连接-->
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
 
     <dependency>
+      <!--test测试-->
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${org.springframework.version}</version>
     </dependency>
 
     <dependency>
+      <!--AOP织用工具：类加载期将切面代码插入到业务代码-->
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>1.7.3</version>
     </dependency>
 
     <dependency>
+      <!--mybatis和spring集成包-->
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis-spring</artifactId>
       <version>${org.mybatis.spring.version}</version>
     </dependency>
 
     <dependency>
+      <!--mybatis包-->
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <version>${org.mybatis.version}</version>
     </dependency>
 
     <dependency>
+        <!--mybatis插件generator-->
         <groupId>org.mybatis.generator</groupId>
         <artifactId>mybatis-generator-core</artifactId>
         <version>1.3.2</version>
     </dependency>
 
     <dependency>
+      <!--AOP切入：运行时的一些注解，静态方法-->
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
       <version>1.6.11</version>
     </dependency>
 
     <dependency>
+      <!--第一个版本：json序列化和反序列化-->
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.9.12</version>
     </dependency>
 
     <dependency>
+      <!--第二个版本：json序列化和反序列化：目前使用这个-->
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.5.0</version>
     </dependency>
 
     <dependency>
+      <!--第二个版本：json序列化和反序列化-->
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>2.5.0</version>
     </dependency>
 
     <dependency>
+      <!--第二个版本：json序列化和反序列化-->
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>2.5.0</version>
     </dependency>
 
     <dependency>
+      <!--数据库连接池-->
       <groupId>commons-dbcp</groupId>
       <artifactId>commons-dbcp</artifactId>
       <version>1.4</version>
     </dependency>
 
     <dependency>
+      <!--日志打印-->
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.1.2</version>
@@ -126,6 +156,7 @@
     </dependency>
 
     <dependency>
+      <!--日志打印-->
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
       <version>1.1.2</version>
@@ -133,30 +164,35 @@
     </dependency>
 
     <dependency>
+      <!--mysql数据库驱动-->
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.6</version>
     </dependency>
 
     <dependency>
+      <!--工具类-->
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>20.0</version>
     </dependency>
 
     <dependency>
+      <!--工具类-->
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.5</version>
     </dependency>
 
     <dependency>
+      <!--集合工具类-->
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
     </dependency>
 
     <dependency>
+      <!--单元测试-->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
@@ -164,91 +200,105 @@
     </dependency>
 
     <dependency>
+      <!--时间日期工具类-->
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>2.3</version>
     </dependency>
 
     <dependency>
+      <!--id加解密包-->
       <groupId>org.hashids</groupId>
       <artifactId>hashids</artifactId>
       <version>1.0.1</version>
     </dependency>
 
     <dependency>
+      <!--FTP服务器连接包-->
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <version>3.1</version>
     </dependency>
 
     <dependency>
+      <!--上传文件的包-->
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
       <version>1.2.2</version>
     </dependency>
 
     <dependency>
+      <!--io流包-->
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.0.1</version>
     </dependency>
-    <!--mybatis-pagehelper分页助手-->
+
     <dependency>
+      <!--mybatis-pageHelper分页助手-->
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
       <version>4.1.0</version>
     </dependency>
 
     <dependency>
+      <!--mybatis-pageHelper分页助手-->
       <groupId>com.github.miemiedev</groupId>
       <artifactId>mybatis-paginator</artifactId>
       <version>1.2.17</version>
     </dependency>
 
     <dependency>
+      <!--mybatis-pageHelper分页助手-->
       <groupId>com.github.jsqlparser</groupId>
       <artifactId>jsqlparser</artifactId>
       <version>0.9.4</version>
     </dependency>
 
-    <!--alipay-->
     <dependency>
+      <!--阿里支付宝接口jar包-->
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <version>1.10</version>
     </dependency>
 
     <dependency>
+      <!--阿里支付宝接口jar包-->
       <groupId>commons-configuration</groupId>
       <artifactId>commons-configuration</artifactId>
       <version>1.10</version>
     </dependency>
 
     <dependency>
+      <!--阿里支付宝接口jar包-->
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
       <version>2.6</version>
     </dependency>
 
     <dependency>
+      <!--阿里支付宝接口jar包-->
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.1.1</version>
     </dependency>
 
     <dependency>
+      <!--阿里支付宝接口jar包-->
       <groupId>com.google.zxing</groupId>
       <artifactId>core</artifactId>
       <version>2.1</version>
     </dependency>
 
     <dependency>
+      <!--json处理类-->
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.3.1</version>
     </dependency>
 
     <dependency>
+      <!--单元测试-->
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>
       <version>1.3</version>
@@ -258,6 +308,7 @@
 
   <build>
     <finalName>mmall</finalName>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
@@ -269,7 +320,6 @@
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
-        <!--将本地jar包可以同步发布到云服务器目录下-->
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
@@ -277,6 +327,7 @@
             <source>1.8</source>
             <target>1.8</target>
             <encoding>UTF-8</encoding>
+            <!--将本地jar包可以同步发布到云服务器目录下-->
             <compilerArguments>
               <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
             </compilerArguments>
@@ -300,6 +351,8 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <!--mybatis generator插件，一定要与<pluginManagement>节点同级-->
     <plugins>
       <plugin>
         <groupId>org.mybatis.generator</groupId>
@@ -311,5 +364,6 @@
         </configuration>
       </plugin>
     </plugins>
+
   </build>
 </project>
